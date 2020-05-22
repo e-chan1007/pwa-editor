@@ -1,0 +1,49 @@
+.row {
+  display: flex;
+  width: 100%;
+  flex-flow: row wrap;
+  justify-content: stretch;
+
+  div.box {
+    @include mq-max("md") {
+      width: 100%;
+    }
+    @include mq-min("md") {
+      width: 50%;
+    }
+
+    @include mq-min("md") {
+      &:first-child {
+        padding-right: 16px;
+      }
+      &:last-child {
+        padding-left: 16px;
+      }
+    }
+
+    &:not(:last-child) {
+      @include mq-max("md") {
+        padding-bottom: 16px;
+        border-bottom: 1px solid $color-gray;
+      }
+      @include mq-min("md") {
+        border-right: 1px solid $color-gray;
+      }
+    }
+  }
+}
+
+.form-row {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start;
+  align-content: space-between;
+  justify-content: flex-start;
+
+  &.has-label {
+    height: 82px;
+  }
+  &.between {
+    justify-content: space-between;
+  }
+}
