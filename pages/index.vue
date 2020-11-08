@@ -31,7 +31,7 @@
             <input v-model.trim="manifest.themeColor" type="color" />
           </form-group>
           <form-group label="背景色">
-            <input v-model.trim="manifest.backgroundColor" type="text" />
+            <input v-model.trim="manifest.backgroundColor" type="color" />
           </form-group>
           <collapsable-list :required="true">
             <template slot="header">アイコン画像 ({{ manifest.icons.length }})</template>

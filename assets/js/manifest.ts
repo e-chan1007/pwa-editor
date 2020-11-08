@@ -14,7 +14,7 @@ class WebAppManifest {
   public icons: Array<ImageResource> = [];
   public startUrl: string = "/";
   public themeColor?: string = "#ffffff";
-  public backgroundColor?: string;
+  public backgroundColor?: string = "#ffffff";
 }
 
 export { ImageResource, WebAppManifest };
