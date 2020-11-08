@@ -106,6 +106,7 @@ export default {
 
     input,
     button,
+    select,
     a {
       display: block;
       width: 100%;

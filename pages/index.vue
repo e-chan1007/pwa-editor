@@ -19,6 +19,14 @@
           <form-group label="起動時に開くURL" required>
             <input v-model.trim="manifest.startUrl" type="text" required />
           </form-group>
+          <form-group label="起動モード" required type="select">
+            <select v-model.trim="manifest.display" type="text" required>
+              <option value="standalone">standalone</option>
+              <option value="fullscreen">fullscreen</option>
+              <option value="minimal-ui">minimal-ui</option>
+              <option value="browser">browser</option>
+            </select>
+          </form-group>
           <form-group label="テーマ色">
             <input v-model.trim="manifest.themeColor" type="color" />
           </form-group>

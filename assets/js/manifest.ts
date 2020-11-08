@@ -10,6 +10,7 @@ class WebAppManifest {
   public name: string = "";
   public shortName?: string;
   public description?: string;
+  public display: "fullscreen" | "standalone" | "minimal-ui" | "browser" = "standalone";
   public icons: Array<ImageResource> = [];
   public startUrl: string = "/";
   public themeColor?: string = "#ffffff";
