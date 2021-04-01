@@ -50,17 +50,45 @@
                   <button class="is-danger" @click="deleteIcon(index)"><i class="fas fa-trash"></i>&nbsp;削除</button>
                 </template>
                 <template slot="content">
-                  <form-group label="ファイル名" :required="true">
-                    <input v-model.trim="manifest.icons[index].src" type="text" required placeholder="/path/to/icon.png" />
+                  <form-group label="ファイルパス" :required="true">
+                    <input v-model.trim="icon.src" type="text" required placeholder="/path/to/icon.png" />
                   </form-group>
                   <form-group label="画像サイズ" :required="true">
-                    <input v-model.trim="manifest.icons[index].sizes" type="text" required placeholder="192x192" />
+                    <input v-model.trim="icon.sizes" type="text" required placeholder="192x192" />
+                  </form-group>
+                </template>
+              </collapsable-list-item>
+            </template>
+          </collapsable-list>
+          <collapsable-list>
+            <template slot="header">スクリーンショット ({{ manifest.screenshots.length }})</template>
+
+            <template slot="header-right">
+              <button @click="addScreenshot"><i class="fas fa-plus"></i>&nbsp;追加</button>
+            </template>
+
+            <template v-for="(screenshot, index) in manifest.screenshots" slot="content">
+              <collapsable-list-item :key="index">
+                <template slot="header">
+                  {{ screenshot.src }}
+                  <span v-if="screenshot.sizes !== ''">({{ screenshot.sizes }})</span>
+                </template>
+                <template slot="header-right">
+                  <button class="is-danger" @click="deleteScreenshot(index)"><i class="fas fa-trash"></i>&nbsp;削除</button>
+                </template>
+                <template slot="content">
+                  <form-group label="ファイルパス" :required="true">
+                    <input v-model.trim="screenshot.src" type="text" required placeholder="/path/to/icon.png" />
+                  </form-group>
+                  <form-group label="画像サイズ" :required="true">
+                    <input v-model.trim="screenshot.sizes" type="text" required placeholder="192x192" />
                   </form-group>
                 </template>
               </collapsable-list-item>
             </template>
           </collapsable-list>
         </div>
+
         <div class="box">
           <h1>Service Workerの設定</h1>
           <form-group label="ファイル名" :required="true">
@@ -138,7 +166,7 @@
 import "~/assets/js/prism.min.js";
 import JSZip from "jszip";
 import { ServiceWorkerSource } from "~/assets/js/sw.ts";
-import { ImageResource, WebAppManifest } from "~/assets/js/manifest.ts";
+import { ImageResource, ScreenshotResource, WebAppManifest } from "~/assets/js/manifest.ts";
 
 export default {
   data() {
@@ -162,10 +190,19 @@ export default {
       Object.keys(object).forEach((key) => {
         if (key === "name") return;
         if (key === "icons") {
-          object.icons.forEach((_iconObj, iconId) => {
-            Object.keys(object.icons[iconId]).forEach((iconKey) => {
+          object.icons.forEach((_iconObj) => {
+            Object.keys(_iconObj).forEach((iconKey) => {
               if (iconKey === "src" || iconKey === "sizes") return;
-              if (object.icons[iconId][iconKey] === "") delete object.icons[iconId][iconKey];
+              if (_iconObj[iconKey] === "") delete _iconObj[iconKey];
+            });
+          });
+          return;
+        }
+        if (key === "screenshots") {
+          object.screenshots.forEach((_screenshotsObj) => {
+            Object.keys(_screenshotsObj).forEach((screenshotKey) => {
+              if (screenshotKey === "src" || screenshotKey === "sizes") return;
+              if (_screenshotsObj[screenshotKey] === "") delete _screenshotsObj[screenshotKey];
             });
           });
           return;
@@ -182,8 +219,8 @@ export default {
     exampleHtml() {
       return `<head>
   <!-- headタグ内に挿入 -->
-  <script src="${this.swFileName}"><\/script>
-<\/head>`;
+  <script src="${this.swFileName}" />
+</head>`;
     }
   },
   methods: {
@@ -198,6 +235,12 @@ export default {
     },
     deleteIcon(index) {
       this.manifest.icons.splice(index, 1);
+    },
+    addScreenshot() {
+      this.manifest.screenshots.push(new ScreenshotResource());
+    },
+    deleteScreenshot(index) {
+      this.manifest.screenshots.splice(index, 1);
     },
     addUrlToCache() {
       this.urlsToCache.push("");
@@ -227,5 +270,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped></style>

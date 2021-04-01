@@ -2,11 +2,11 @@ import { baseScript } from "./swbase";
 class ServiceWorkerSource {
   static build(swFileName: string, manifestFileName: string, cacheName: string, _urlsToCache: Array<string>, _urlsIgnoredToCache: Array<string>) {
     const urlsToCache = _urlsToCache.map((replaced) => {
-      if (replaced.match(/^\/.*?\/[igmsuy]*/)) return replaced.replace(/^\/(.*?)\/([igmsuy]*)/g, "__REGEXP/$1/$2__");
+      if (replaced.match(/^\/.+?\/[igmsuy]*$/)) return replaced.replace(/^\/(.*?)\/([igmsuy]*)/g, "__REGEXP/$1/$2__");
       return replaced;
     });
     const urlsIgnoredToCache = _urlsIgnoredToCache.map((replaced) => {
-      if (replaced.match(/^\/.*?\/[igmsuy]*/)) return replaced.replace(/^\/(.*?)\/([igmsuy]*)/g, "__REGEXP/$1/$2__");
+      if (replaced.match(/^\/.+?\/[igmsuy]*$/)) return replaced.replace(/^\/(.*?)\/([igmsuy]*)/g, "__REGEXP/$1/$2__");
       return replaced;
     });
     const stringFunction = baseScript
